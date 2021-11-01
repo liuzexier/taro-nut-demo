@@ -10,7 +10,34 @@
   box-sizing: border-box;
   margin-top: -20px;
 
-  .select {}
+  .select {
+    display: flex;
+    align-items: center;
+
+    .btn {
+      margin-left: 10px;
+    }
+
+    .form-item {
+      display: inline-flex;
+      align-items: center;
+      margin-right: 10px;
+
+      &:last-of-type {
+        margin-right: 0;
+      }
+
+      .input {
+        display: inline-block;
+      }
+
+      .label {
+        display: inline-block;
+        flex-shrink: 0;
+        padding: 0 10px 0 0;
+      }
+    }
+  }
 
   .right-btn {}
 }

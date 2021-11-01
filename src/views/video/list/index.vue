@@ -18,7 +18,7 @@
       @current-change="getData"
       :total="total"
     ></el-pagination>
-     <el-dialog v-model="dialogVisiable" title="视频">
+     <el-dialog width="500px" v-model="dialogVisiable" title="视频">
       <AddVideo v-model="dialogVisiable" v-if="dialogVisiable"></AddVideo>
     </el-dialog>
   </div>

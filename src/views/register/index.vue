@@ -1,18 +1,20 @@
 <template>
   <div class="login-c">
     <div class="login-form">
-      <div class="title">登录</div>
-      <el-form ref="form" label-width="0" :model="data">
-        <el-form-item prop="phone" :rules="commonRules('手机号码')">
+      <div class="title">注册</div>
+      <el-form ref="form" :model="data" label-width="0">
+        <el-form-item prop="phone" :rules="commonRules('手机号')">
           <el-input placeholder="请输入手机号码" type="text" v-model="data.phone"></el-input>
         </el-form-item>
         <el-form-item prop="password" :rules="commonRules('密码')">
           <el-input placeholder="请输入用密码" type="password" v-model="data.password"></el-input>
         </el-form-item>
+        <el-form-item prop="repassword" :rules="commonRules('确认密码', 'blur', passwordVdt)">
+          <el-input placeholder="请确认密码" type="password" v-model="data.repassword"></el-input>
+        </el-form-item>
       </el-form>
       <div class="bottom-btn">
-        <el-button type="primary" @click="handleLogin">确定</el-button>
-        <el-button @click="handleReg">注册</el-button>
+        <el-button type="primary" @click="handleReg">确定</el-button>
       </div>
     </div>
   </div>
@@ -22,30 +24,39 @@ import * as LoginService from '@/services/LoginService'
 import { defineComponent, reactive, ref } from 'vue'
 import { commonRules } from '@/utils'
 import { useRouter } from 'vue-router'
+import { ElMessage } from 'element-plus'
 export default defineComponent({
+  name: 'register',
   setup() {
     const form: any = ref(null)
     const data = reactive({
       phone: '',
-      password: ''
+      password: '',
+      repassword: '',
     })
-    const $router = useRouter()
-    function handleLogin() {
-      form.value.validate((v) => {
-        if (v) {
-          LoginService.login(data).then(res => {
-            console.log(res)
+      const $router = useRouter()
+    const passwordVdt = (_rule, _value, callback) => {
+      if (data.password !== data.repassword) {
+        callback('两次密码输入不一样')
+      }
+      callback()
+    }
+    function handleReg() {
+      form.value.validate(validate => {
+        if (validate) {
+          LoginService.register({ ...data}).then(res => {
+            if(res.code == 200) {
+              ElMessage.success('注册成功')
+              $router.back()
+            }
           })
         }
       })
     }
-    function handleReg() {
-      $router.push('/register')
-    }
     return {
-      data,
       form,
-      handleLogin,
+      data,
+      passwordVdt,
       commonRules,
       handleReg
     }
@@ -75,15 +86,7 @@ export default defineComponent({
     .bottom-btn {
       .el-button {
         width: 100%;
-        margin-bottom: 15px;
       }
-      .el-button + .el-button {
-        margin-left: 0;
-        margin-bottom: 0;
-      }
-      display: flex;
-      flex-direction: column;
-      align-items: center;
     }
   }
 }

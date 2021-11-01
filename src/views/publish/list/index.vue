@@ -18,7 +18,7 @@
       @current-change="getData"
       :total="total"
     ></el-pagination>
-    <el-dialog v-model="dialogVisiable" title="公告">
+    <el-dialog width="500px" v-model="dialogVisiable" title="公告">
       <AddPublish v-model="dialogVisiable" v-if="dialogVisiable"></AddPublish>
     </el-dialog>
   </div>

@@ -5,6 +5,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
     component: Layout,
+    redirect: '/login',
     children: [
       {
         path: '/student',
@@ -90,6 +91,11 @@ const routes: Array<RouteRecordRaw> = [
     path: '/login',
     name: 'Login',
     component: () => import('@/views/login/index.vue')
+  },
+  {
+    path: '/register',
+    name: 'register',
+    component: () => import('@/views/register/index.vue')
   },
 ]
 
